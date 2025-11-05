@@ -1,4 +1,4 @@
-package com.atharva.eventmento.domain;
+package com.atharva.eventmento.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
