@@ -7,7 +7,7 @@ services:
       - "5432:5432"
     restart: always
     environment:
-      POSTGRES_PASSWORD: atharvakadam!
+      POSTGRES_PASSWORD: Kadam@1234
 
 
   # Database management interface
