@@ -1,6 +1,6 @@
 package com.atharva.eventmento.filters;
 
-import com.atharva.eventmento.domain.User;
+import com.atharva.eventmento.domain.entities.User;
 import com.atharva.eventmento.repositories.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
