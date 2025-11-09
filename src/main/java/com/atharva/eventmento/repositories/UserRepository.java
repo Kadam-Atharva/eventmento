@@ -1,6 +1,6 @@
 package com.atharva.eventmento.repositories;
 
-import com.atharva.eventmento.domain.User;
+import com.atharva.eventmento.domain.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
