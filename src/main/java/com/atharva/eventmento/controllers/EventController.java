@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.atharva.eventmento.util.JwtUtil.parseUserId;
+
 @RestController
 @RequestMapping(path = "/api/v1/events")
 @RequiredArgsConstructor
@@ -84,8 +86,29 @@ public class EventController {
         return ResponseEntity.noContent().build();
     }
 
-    private UUID parseUserId(Jwt jwt) {
-        return UUID.fromString(jwt.getSubject());
+    @PostMapping("/{eventId}/staff")
+    public ResponseEntity<Void> addStaffToEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId,
+            @RequestBody AddStaffRequestDto request) {
+
+        UUID organizerId = parseUserId(jwt);
+
+        eventService.addStaffToEvent(organizerId, eventId, request.getEmail());
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{eventId}/participants")
+    public ResponseEntity<EventParticipantsResponseDto> getEventParticipants(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId) {
+
+        UUID userId = parseUserId(jwt);
+
+        EventParticipantsResponseDto participants = eventService.getEventParticipants(eventId, userId);
+
+        return ResponseEntity.ok(participants);
     }
 
 }
