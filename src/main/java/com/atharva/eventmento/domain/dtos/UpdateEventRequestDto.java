@@ -41,4 +41,6 @@ public class UpdateEventRequestDto {
     @NotEmpty(message = "At one ticket type is required")
     @Valid
     private List<UpdateTicketTypeRequestDto> ticketTypes;
+
+    private String coverImage;
 }
