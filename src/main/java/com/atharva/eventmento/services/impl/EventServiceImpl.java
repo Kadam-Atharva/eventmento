@@ -3,6 +3,8 @@ package com.atharva.eventmento.services.impl;
 import com.atharva.eventmento.domain.CreateEventRequest;
 import com.atharva.eventmento.domain.UpdateEventRequest;
 import com.atharva.eventmento.domain.UpdateTicketTypeRequest;
+import com.atharva.eventmento.domain.dtos.EventParticipantsResponseDto;
+import com.atharva.eventmento.domain.dtos.UserSummaryDto;
 import com.atharva.eventmento.domain.entities.Event;
 import com.atharva.eventmento.domain.entities.EventStatusEnum;
 import com.atharva.eventmento.domain.entities.TicketType;
@@ -99,6 +101,7 @@ public class EventServiceImpl implements EventService {
         existingEvent.setSalesStart(event.getSalesStart());
         existingEvent.setSalesEnd(event.getSalesEnd());
         existingEvent.setStatus(event.getStatus());
+        existingEvent.setCoverImage(event.getCoverImage());
 
         Set<UUID> requestTicketTypeIds = event.getTicketTypes()
                 .stream()
@@ -155,5 +158,56 @@ public class EventServiceImpl implements EventService {
     @Override
     public Optional<Event> getPublishedEvent(UUID id) {
         return eventRepository.findByIdAndStatus(id, EventStatusEnum.PUBLISHED);
+    }
+
+    @Override
+    @Transactional
+    public void addStaffToEvent(UUID organizerId, UUID eventId, String staffEmail) {
+        Event event = eventRepository.findByIdAndOrganizerId(eventId, organizerId)
+                .orElseThrow(() -> new EventNotFoundException(
+                        String.format("Event with ID %s not found or you are not the organizer", eventId)
+                ));
+        User staffMember = userRepository.findByEmail(staffEmail)
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User with email %s not found.", staffEmail)
+                ));
+        staffMember.getStaffingEvents().add(event);
+        event.getStaff().add(staffMember);
+        userRepository.save(staffMember);
+    }
+
+    @Override
+    @Transactional
+    public EventParticipantsResponseDto getEventParticipants(UUID eventId, UUID requestingUserId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException(
+                        String.format("Event with ID %s not found", eventId)
+                ));
+        // (Optional logic: Check if requestingUserId allows them to see this data)
+
+        UserSummaryDto organizerDto = UserSummaryDto.builder()
+                .name(event.getOrganizer().getName())
+                .email(event.getOrganizer().getEmail())
+                .build();
+
+        List<UserSummaryDto> staffDtos = event.getStaff().stream()
+                .map(user -> UserSummaryDto.builder()
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .build())
+                .toList();
+
+        List<UserSummaryDto> attendeeDtos = event.getAttendees().stream()
+                .map(user -> UserSummaryDto.builder()
+                        .name(user.getName())
+                        .email(user.getEmail())
+                        .build())
+                .toList();
+
+        return EventParticipantsResponseDto.builder()
+                .organizer(organizerDto)
+                .staff(staffDtos)
+                .attendees(attendeeDtos)
+                .build();
     }
 }
