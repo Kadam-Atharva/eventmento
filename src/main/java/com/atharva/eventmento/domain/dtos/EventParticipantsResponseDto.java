@@ -1,0 +1,18 @@
+package com.atharva.eventmento.domain.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class EventParticipantsResponseDto {
+    private UserSummaryDto organizer;
+    private List<UserSummaryDto> staff;
+    private List<UserSummaryDto> attendees;
+}
