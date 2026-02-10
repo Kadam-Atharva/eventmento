@@ -43,4 +43,5 @@ public class UpdateEventRequestDto {
     private List<UpdateTicketTypeRequestDto> ticketTypes;
 
     private String coverImage;
+    private String description;
 }
