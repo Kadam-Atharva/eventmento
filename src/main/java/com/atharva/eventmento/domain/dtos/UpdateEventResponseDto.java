@@ -25,4 +25,6 @@ public class UpdateEventResponseDto {
     private List<UpdateTicketTypeResponseDto> ticketTypes;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String coverImage;
+    private String description;
 }
