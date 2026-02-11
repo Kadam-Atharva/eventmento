@@ -24,5 +24,6 @@ public class UpdateEventRequest {
     private LocalDateTime salesEnd;
     private EventStatusEnum status;
     private List<UpdateTicketTypeRequest> ticketTypes = new ArrayList<>();
+    private String description;
     private String coverImage;
 }
