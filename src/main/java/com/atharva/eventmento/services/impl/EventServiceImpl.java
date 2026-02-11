@@ -63,6 +63,8 @@ public class EventServiceImpl implements EventService {
         eventToCreate.setSalesEnd(event.getSalesEnd());
         eventToCreate.setStatus(event.getStatus());
         eventToCreate.setOrganizer(organizer);
+        eventToCreate.setCoverImage(event.getCoverImage());
+        eventToCreate.setDescription(event.getDescription());
         eventToCreate.setTicketTypes(ticketTypesToCreate);
 
         return eventRepository.save(eventToCreate);
@@ -102,6 +104,7 @@ public class EventServiceImpl implements EventService {
         existingEvent.setSalesEnd(event.getSalesEnd());
         existingEvent.setStatus(event.getStatus());
         existingEvent.setCoverImage(event.getCoverImage());
+        existingEvent.setDescription(event.getDescription());
 
         Set<UUID> requestTicketTypeIds = event.getTicketTypes()
                 .stream()
