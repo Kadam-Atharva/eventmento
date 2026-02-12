@@ -71,15 +71,18 @@ public class Event {
     @Column(name = "cover_image", columnDefinition = "TEXT")
     private String coverImage;
 
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Event event = (Event) o;
-        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(start, event.start) && Objects.equals(end, event.end) && Objects.equals(venue, event.venue) && Objects.equals(salesStart, event.salesStart) && Objects.equals(salesEnd, event.salesEnd) && status == event.status && Objects.equals(createdAt, event.createdAt) && Objects.equals(updatedAt, event.updatedAt) && Objects.equals(coverImage, event.coverImage);
+        return Objects.equals(id, event.id) && Objects.equals(name, event.name) && Objects.equals(start, event.start) && Objects.equals(end, event.end) && Objects.equals(venue, event.venue) && Objects.equals(salesStart, event.salesStart) && Objects.equals(salesEnd, event.salesEnd) && status == event.status && Objects.equals(createdAt, event.createdAt) && Objects.equals(updatedAt, event.updatedAt) && Objects.equals(coverImage, event.coverImage) && Objects.equals(description, event.description);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, start, end, venue, salesStart, salesEnd, status, createdAt, updatedAt, coverImage);
+        return Objects.hash(id, name, start, end, venue, salesStart, salesEnd, status, createdAt, updatedAt, coverImage, description);
     }
 }
