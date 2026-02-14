@@ -22,6 +22,8 @@ public class CreateEventRequest {
     private LocalDateTime salesStart;
     private LocalDateTime salesEnd;
     private EventStatusEnum status;
+    private String coverImage;
+    private String description;
     private List<CreateTicketTypeRequest> ticketTypes = new ArrayList<>();
 
 }
