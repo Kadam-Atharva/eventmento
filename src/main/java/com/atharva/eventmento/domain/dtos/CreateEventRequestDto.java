@@ -39,4 +39,5 @@ public class CreateEventRequestDto {
     private List<CreateTicketTypeRequestDto> ticketTypes;
 
     private String coverImage;
+    private String description;
 }
