@@ -20,5 +20,7 @@ public class GetPublishedEventDetailsResponseDto {
     private LocalDateTime start;
     private LocalDateTime end;
     private String venue;
+    private String coverImage;
+    private String description;
     private List<GetPublishedEventDetailsTicketTypeResponseDto> ticketTypes = new ArrayList<>();
 }
