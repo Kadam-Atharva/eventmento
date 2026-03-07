@@ -24,5 +24,6 @@ public class ListEventResponseDto {
     private LocalDateTime salesEnd;
     private EventStatusEnum status;
     private List<ListEventTicketTypeResponseDto> ticketTypes = new ArrayList<>();
+    private String description;
     private String coverImage;
 }
