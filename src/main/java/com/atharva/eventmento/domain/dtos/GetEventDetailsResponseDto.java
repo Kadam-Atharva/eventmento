@@ -27,4 +27,5 @@ public class GetEventDetailsResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String coverImage;
+    private String description;
 }
