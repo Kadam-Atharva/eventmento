@@ -3,6 +3,7 @@ package com.atharva.eventmento.services;
 import com.atharva.eventmento.domain.CreateEventRequest;
 import com.atharva.eventmento.domain.UpdateEventRequest;
 import com.atharva.eventmento.domain.dtos.EventParticipantsResponseDto;
+import com.atharva.eventmento.domain.dtos.EventRoleResponseDto;
 import com.atharva.eventmento.domain.entities.Event;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,4 +22,5 @@ public interface EventService {
     Optional<Event> getPublishedEvent(UUID id);
     void addStaffToEvent(UUID organizerId, UUID eventId, String staffEmail);
     EventParticipantsResponseDto getEventParticipants(UUID eventId, UUID requestingUserId);
+    EventRoleResponseDto getUserRoleForEvent(UUID eventId, UUID userId);
 }
