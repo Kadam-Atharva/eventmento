@@ -47,4 +47,7 @@ public class UserController {
                 .profileImage(user.getProfileImage())
                 .build());
     }
+
+    // Want to develop the custom authentication
+    // system that enables the give user to securely login and register
 }
