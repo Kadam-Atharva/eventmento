@@ -4,6 +4,7 @@ import com.atharva.eventmento.domain.CreateEventRequest;
 import com.atharva.eventmento.domain.UpdateEventRequest;
 import com.atharva.eventmento.domain.UpdateTicketTypeRequest;
 import com.atharva.eventmento.domain.dtos.EventParticipantsResponseDto;
+import com.atharva.eventmento.domain.dtos.EventRoleResponseDto;
 import com.atharva.eventmento.domain.dtos.UserSummaryDto;
 import com.atharva.eventmento.domain.entities.Event;
 import com.atharva.eventmento.domain.entities.EventStatusEnum;
@@ -188,6 +189,13 @@ public class EventServiceImpl implements EventService {
                 ));
         // (Optional logic: Check if requestingUserId allows them to see this data)
 
+        boolean isOrganizer = event.getOrganizer().getId().equals(requestingUserId);
+        boolean isStaff = event.getStaff().stream()
+                .anyMatch(staff -> staff.getId().equals(requestingUserId));
+        if (!isOrganizer && !isStaff) {
+            throw new RuntimeException("Only organizers and staff can view the participant list.");
+        }
+
         UserSummaryDto organizerDto = UserSummaryDto.builder()
                 .name(event.getOrganizer().getName())
                 .email(event.getOrganizer().getEmail())
@@ -213,4 +221,31 @@ public class EventServiceImpl implements EventService {
                 .attendees(attendeeDtos)
                 .build();
     }
+
+    @Override
+    public EventRoleResponseDto getUserRoleForEvent(UUID eventId, UUID userId) {
+        Event event = eventRepository.findById(eventId)
+                .orElseThrow(() -> new EventNotFoundException(
+                        String.format("Event with ID %s not found", eventId)
+                ));
+
+        if (event.getOrganizer().getId().equals(userId)) {
+            return new EventRoleResponseDto("ORGANIZER");
+        }
+
+        boolean isStaff = event.getStaff().stream()
+                .anyMatch(staff -> staff.getId().equals(userId));
+        if (isStaff) {
+            return new EventRoleResponseDto("STAFF");
+        }
+
+        boolean isAttendee = event.getAttendees().stream()
+                .anyMatch(attendee -> attendee.getId().equals(userId));
+        if (isAttendee) {
+            return new EventRoleResponseDto("ATTENDEE");
+        }
+
+        return new EventRoleResponseDto("NONE");
+    }
+
 }
